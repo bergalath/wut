@@ -1,0 +1,10 @@
+:warez:
+- :title: Alt-F firmware
+  :url:   https://sites.google.com/site/altfirmware/
+  :xpath: td.sites-layout-tile:nth-child(2) > div:nth-child(1) > div:nth-child(1) > p:nth-child(6) > span:nth-child(1) > b:nth-child(1) > font:nth-child(1) > i:nth-child(2) > a:nth-child(1)
+  :value: Alt-F-0.1RC4
+
+- :title: Shuttle BIOS
+  :url:   http://global.shuttle.com/products/productsDownload?productId=1549
+  :xpath: '#download_bios_content > table:nth-child(2) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > h4:nth-child(1)'
+  :value: SH67H000.204
