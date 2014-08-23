@@ -1,4 +1,5 @@
 require 'sinatra'
+require 'sinatra/reloader'
 require 'pathname'
 require 'yaml'
 require 'net/http'
@@ -36,12 +37,17 @@ class Tracker
   end
 end
 
-get '/' do
-  @tracker = Tracker.new
-  @warez = @tracker.warez
-  slim :index
-end
+class WutApp < Sinatra::Base
+  configure :development do
+    register Sinatra::Reloader
+  end
 
-get '/pages' do
-  Tracker.new.parser
+  get '/' do
+    @warez = Tracker.new.warez
+    slim :index
+  end
+
+  get '/pages' do
+    Tracker.new.parser
+  end
 end

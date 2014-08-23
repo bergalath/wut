@@ -1,2 +1,2 @@
 require_relative 'wut'
-run Sinatra::Application
+run WutApp
