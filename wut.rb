@@ -12,6 +12,10 @@ class WutApp < Sinatra::Base
     register Sinatra::Reloader
   end
 
+  not_found do
+    slim :error, layout: false, logic_less: false
+  end
+
   get '/' do
     @warez = Tracker.new.warez
     slim :index
