@@ -1,5 +1,4 @@
 require 'sinatra'
-require 'sinatra/reloader'
 require 'pathname'
 require 'yaml'
 require 'net/http'
@@ -8,10 +7,6 @@ require 'nokogiri'
 require_relative 'tracker'
 
 class WutApp < Sinatra::Base
-  configure :development do
-    register Sinatra::Reloader
-  end
-
   not_found do
     slim :error, layout: false, logic_less: false
   end
