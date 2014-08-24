@@ -1,30 +1,33 @@
+require 'yaml/store'
+require 'open-uri'
+require 'nokogiri'
+
 class Tracker
-  CACHE_DIR = Pathname.new('./cache')
-  attr_accessor :warez
-
-  def initialize(tracking: YAML::load_file('./tracking.yml'))
-    @warez = tracking[:warez].map { |ware_hash| OpenStruct.new(ware_hash) }
-    get_pages if CACHE_DIR.children.size.zero?
+  def initialize()
+    @database = YAML::Store.new 'tracking.yml'
   end
 
-  def pages
-    CACHE_DIR.children.map(&:read)
+  def warez
+    @warez ||= get_warez.map { |data| OpenStruct.new(data) }
   end
 
-  def parser
-    warez.map do |ware|
-      Nokogiri::HTML(CACHE_DIR.join(ware.title).read).xpath(ware.xpath).text
-    end.join(' ')
+  def reload
+    warez.map { |ware| set_ware(ware) } && save!
   end
 
   private
-  def get_page(url)
-    Net::HTTP.get(URI(url)).slice(/<body.+\/body>/m)
-  end
-
-  def get_pages
-    warez.each do |ware|
-      CACHE_DIR.join(ware.title).write get_page(ware.url)
+    def get_warez
+      @database.transaction { |db| db['warez'] || [] }
     end
-  end
+
+    def set_ware(ware)
+      ware.parsed_value = Nokogiri::HTML(open(ware.url)).xpath(ware.xpath).text.strip
+      ware.parsed_date  = Time.now
+    end
+
+    def save!
+      @database.transaction do |db|
+        db['warez'] = warez.map(&:to_h)
+      end
+    end
 end

@@ -1,10 +1,14 @@
-:warez:
+---
+warez:
 - :title: Alt-F firmware
-  :url:   https://sites.google.com/site/altfirmware/
-  :xpath: //span/b/font/i[2]/a
+  :url: https://sites.google.com/site/altfirmware/
+  :xpath: "//span/b/font/i[2]/a"
   :value: Alt-F-0.1RC4
-
+  :parsed_value: Alt-F-0.1RC4
+  :parsed_date: 2014-08-24 11:47:08.726387594 +02:00
 - :title: Shuttle BIOS
-  :url:   http://global.shuttle.com/products/productsDownload?productId=1549
-  :xpath: //div[1]/table/tr[1]/td[1]/h4
-  :value: SH67H000.204
+  :url: http://global.shuttle.com/products/productsDownload?productId=1549
+  :xpath: "//div[1]/table/tr[1]/td[1]/h4"
+  :value: SH67H000.114
+  :parsed_value: SH67H000.204
+  :parsed_date: 2014-08-24 11:47:11.703600852 +02:00

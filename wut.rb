@@ -1,9 +1,5 @@
 require 'sinatra'
-require 'pathname'
-require 'yaml'
-require 'net/http'
 require 'slim/logic_less'
-require 'nokogiri'
 require_relative 'tracker'
 
 class WutApp < Sinatra::Base
@@ -16,7 +12,7 @@ class WutApp < Sinatra::Base
     slim :index
   end
 
-  get '/pages' do
-    Tracker.new.parser
+  get '/reload' do
+    Tracker.new.reload && redirect('/')
   end
 end
