@@ -1,2 +1,2 @@
-require_relative 'wut'
+require_relative 'lib/wut'
 run WutApp

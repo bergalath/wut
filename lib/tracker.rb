@@ -4,7 +4,7 @@ require 'nokogiri'
 
 class Tracker
   def initialize()
-    @database = YAML::Store.new 'tracking.yml'
+    @database = YAML::Store.new 'lib/tracking.yml'
   end
 
   def warez
