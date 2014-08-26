@@ -1,7 +1,7 @@
 
 # This script sets docker env from the Vagrant provision mechanism
 
-$setup = <<SCRIPT
+setup = <<SCRIPT
 # Stop and remove any existing containers
 docker stop $(docker ps -a -q)
 docker rm $(docker ps -a -q)
@@ -11,7 +11,7 @@ docker build -t archlinux:wut /vagrant
 
 # Run a NEW CONTAINER named 'wut-ze-hell', as a daemon and rackup port (9292)
 #   forwarded to the VM, from the IMAGE tagged 'archlinux:wut'
-docker run -d -p 9292:9292 --name 'wut-ze-hell' archlinux:wut
+docker run -m 64m -d -p 9292:9292 --name 'wut-ze-hell' archlinux:wut
 SCRIPT
 
 Vagrant.configure('2') do |config|
@@ -39,7 +39,7 @@ Vagrant.configure('2') do |config|
   config.vm.provision :docker
 
   # Setup the container when the VM is first created
-  config.vm.provision 'shell', inline: $setup
+  config.vm.provision 'shell', inline: setup
 
   # Make sure the correct container is running every time we start the VM.
   config.vm.provision 'shell', run: 'always', inline: 'docker start wut-ze-hell'
