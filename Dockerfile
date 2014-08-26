@@ -1,29 +1,23 @@
-# Latest Ubuntu LTS docker friendly image from Phusion
-FROM phusion/baseimage:latest
 
-MAINTAINER Bertrand Gauriat "bga@bga.la"
+# Ubuntu is sooooo boring, even in a container, back to ArchLinux ! ;o)
+# Feignasse inside : revenir à base/archlinux et ajouter yaourt à la mano
+FROM base/devel:latest
 
-# Update apt-cache ; upgrade needed ?
-RUN apt-get update
-RUN apt-get install -y make gcc libxslt-dev libxml2-dev wget git-core
- 
-# Add repo & key for Ruby 2.1 (and dependencies ?)
-RUN wget -q -O - http://apt.hellobits.com/hellobits.key | sudo apt-key add -
-RUN echo 'deb http://apt.hellobits.com/ trusty main' | sudo tee /etc/apt/sources.list.d/hellobits.list
+MAINTAINER Bertrand Gauriat "https://github.com/bergalath/wut"
 
-# Install Ruby & Bundler
-RUN apt-get update
-RUN apt-get install -y ruby-2.1
-RUN gem install bundler
+# Update repositories & packages
+#RUN pacman -Syyuu # à tester +tard
+
+# Install ruby & friends
+RUN pacman -S --needed --noconfirm ruby
+RUN yaourt -S --needed --noconfirm ruby-bundler
 
 # Pull project from github
-RUN git clone https://github.com/bergalath/wut.git /home/wut # may not the best destination ?!
+RUN git clone https://github.com/bergalath/wut.git /home/wut
 
 WORKDIR /home/wut
 
 # Setup project environment
 RUN bundle install --path=vendor --binstubs
-
-EXPOSE 9292
 
 CMD ["./bin/rackup"]
