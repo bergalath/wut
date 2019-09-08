@@ -10,9 +10,9 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    mini_portile (0.6.0)
-    nokogiri (1.6.3.1)
-      mini_portile (= 0.6.0)
+    mini_portile2 (2.4.0)
+    nokogiri (1.9.1)
+      mini_portile2 (~> 2.4.0)
     rack (1.6.11)
     rack-protection (1.5.5)
       rack
