@@ -2,7 +2,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     rack (3.0.4.1)
-    roda (3.23.0)
+    roda (3.64.0)
       rack
 
 PLATFORMS
@@ -12,7 +12,7 @@ DEPENDENCIES
   roda
 
 RUBY VERSION
-   ruby 2.6.4p104
+   ruby 3.2.0p0
 
 BUNDLED WITH
-   2.0.2
+   2.4.5
