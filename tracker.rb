@@ -15,33 +15,31 @@ require "yaml/store"
 
 # Tracker
 class Tracker
-  attr_reader :warez
-
   def initialize
     @database = YAML::Store.new "tracking.yml"
-    @warez ||= warez_repository.map { |data| OpenStruct.new(data) }
   end
 
-  def run
-    warez.each do |ware|
-      update_ware! ware
-    end
-  end
+  def warez = @warez ||= repository.map { |data| OpenStruct.new(data) }
+
+  def run = process_warez! && save!
 
   private
 
-  def warez_repository
-    @database.transaction { |db| db["warez"] || [] }
-  end
+  def repository = @database.transaction { |db| db["warez"] } || []
 
-  def update_ware!(ware)
-    ware.parsed_value = Nokolexbor::HTML(URI.open(ware.url)).xpath(ware.xpath).text.strip
-    ware.parsed_date = Time.now
-  end
+  def save! = @database.transaction { |db| db["warez"] = warez.map(&:to_h) }
 
-  def save!
-    @database.transaction do |db|
-      db["warez"] = warez.map(&:to_h)
+  def process_warez!
+    warez.each do |ware|
+      parsed_value = Nokolexbor::HTML(URI.open(ware.url)).xpath(ware.xpath).text.strip
+      puts("Souci, rien trouvé !") && next if parsed_value.empty?
+
+      if parsed_value != ware.value
+        puts "Update available !!"
+        ware.value = parsed_value
+      else
+        puts "NOOP !"
+      end
     end
   end
 end
