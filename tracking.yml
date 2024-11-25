@@ -8,3 +8,7 @@ warez:
   :url: http://global.shuttle.com/products/productsDownload?productId=1549
   :xpath: "//div[1]/table/tr[1]/td[1]/h4"
   :value: ''
+- :title: Alt-F firmware RSS
+  :url: https://sourceforge.net/projects/alt-f/rss?path=/Releases
+  :xpath: :rss
+  :value: Alt-F-1.0

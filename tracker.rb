@@ -7,10 +7,11 @@ gemfile do
   gem "nokolexbor"
   gem "ostruct"
   gem "pstore"
+  gem "rss"
 end
 
-require "open-uri"
 require "nokolexbor"
+require "open-uri"
 require "yaml/store"
 
 # Tracker
@@ -31,15 +32,21 @@ class Tracker
 
   def process_warez!
     warez.each do |ware|
-      parsed_value = Nokolexbor::HTML(URI.open(ware.url)).xpath(ware.xpath).text.strip
-      puts("Souci, rien trouvé !") && next if parsed_value.empty?
+      parsed_value = fetch_value ware
+      puts("Rien trouvé pour #{ware.title} !") && next if parsed_value.empty?
 
-      if parsed_value != ware.value
-        puts "Update available !!"
-        ware.value = parsed_value
-      else
-        puts "NOOP !"
-      end
+      next if parsed_value == ware.value
+
+      puts "Màj disponible pour #{ware.title} : #{parsed_value}"
+      ware.value = parsed_value
+    end
+  end
+
+  def fetch_value(ware)
+    if ware.xpath == :rss
+      RSS::Parser.parse(URI.open(ware.url)).items.first.title
+    else
+      Nokolexbor::HTML(URI.open(ware.url)).xpath(ware.xpath).text.strip
     end
   end
 end
