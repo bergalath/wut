@@ -1,17 +1,14 @@
 # frozen_string_literal: true
 
 require "bundler/inline"
-
 gemfile do
   source "https://rubygems.org"
+  ruby "~> 3.3"
   gem "nokolexbor"
   gem "ostruct"
   gem "pstore"
   gem "rss"
 end
-
-require "nokolexbor"
-require "open-uri"
 require "yaml/store"
 
 # Tracker
@@ -33,7 +30,7 @@ class Tracker
   def process_warez!
     warez.each do |ware|
       parsed_value = fetch_value ware
-      puts("Rien trouvé pour #{ware.title} !") && next if parsed_value.empty?
+      puts("Rien trouvé pour #{ware.title} ! Xpath ou URL ok ?") && next if parsed_value.empty?
 
       next if parsed_value == ware.value
 
@@ -43,10 +40,11 @@ class Tracker
   end
 
   def fetch_value(ware)
+    doc = URI.parse(ware.url).open
     if ware.xpath == :rss
-      RSS::Parser.parse(URI.open(ware.url)).items.first.title
+      RSS::Parser.parse(doc).items.first.title
     else
-      Nokolexbor::HTML(URI.open(ware.url)).xpath(ware.xpath).text.strip
+      Nokolexbor::HTML(doc).xpath(ware.xpath).text.strip
     end
   end
 end
