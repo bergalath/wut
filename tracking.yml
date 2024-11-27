@@ -3,11 +3,11 @@ warez:
 - :title: Alt-F firmware
   :url: https://sites.google.com/site/altfirmware/
   :xpath: "/html/body/div[1]/div[2]/div[2]/div[3]/div/div[1]/section[3]/div[2]/div/div/div/div/div/div/div/div/p/span[2]/a/em/strong"
-  :value: Alt-F-1.0
+  :value: Alt-F-0.1RC4
 - :title: Shuttle BIOS
   :url: http://global.shuttle.com/products/productsDownload?productId=1549
-  :xpath: "//div[1]/table/tr[1]/td[1]/h4"
-  :value: ''
+  :xpath: "/html/body/main/div/div/div/div[4]/div/div/div/div[2]/div[1]/table/tbody/tr[1]/td[1]/h4"
+  :value: SH67H000.114
 - :title: Alt-F firmware RSS
   :url: https://sourceforge.net/projects/alt-f/rss?path=/Releases
   :xpath: :rss
