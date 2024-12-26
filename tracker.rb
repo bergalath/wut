@@ -3,7 +3,7 @@
 require "bundler/inline"
 gemfile do
   source "https://rubygems.org"
-  ruby "~> 3.3"
+  ruby "> 3.3"
   gem "nokolexbor"
   gem "ostruct"
   gem "pstore"
@@ -17,15 +17,15 @@ class Tracker
     @database = YAML::Store.new "tracking.yml"
   end
 
-  def warez = @warez ||= repository.map { |data| OpenStruct.new(data) }
+  def warez = @warez ||= repository.map { OpenStruct.new _1 }
 
   def run = process_warez! && save!
 
   private
 
-  def repository = @database.transaction { |db| db["warez"] } || []
+  def repository = @database.transaction { _1["warez"] } || []
 
-  def save! = @database.transaction { |db| db["warez"] = warez.map(&:to_h) }
+  def save! = @database.transaction { _1["warez"] = warez.map(&:to_h) }
 
   def process_warez!
     warez.each do |ware|

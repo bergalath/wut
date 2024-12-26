@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "irb"
+require_relative "../tracker"
+
+tracker = Tracker.new
+puts "Tracker disponible dans la variable `tracker` : #{tracker.inspect}"
+
+IRB.setup __FILE__
+IRB::Irb.new(IRB::WorkSpace.new(binding)).run IRB.conf
